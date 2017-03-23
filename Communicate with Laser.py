@@ -20,8 +20,8 @@ def crcsplit(decarray): #Finds lowest and highest crc from data and converts it 
         if len(decarray[idx])==1:
             decarray[idx]='0%s'%decarray[idx]
         decarray[idx]=decarray[idx].upper()
-    outputcrc=xmodem_crc_func(binascii.unhexlify("".join(decarray)))
     arrayout="".join(decarray)
+    outputcrc=xmodem_crc_func(binascii.unhexlify(arrayout))
     crc=tuple([ ord(x) for x in struct.pack('<H',outputcrc)])
     hi=format(crc[1],'x').upper()
     lo=format(crc[0],'x').upper()
