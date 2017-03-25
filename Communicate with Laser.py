@@ -9,11 +9,10 @@ import serial
 import struct
 import binascii
 import numpy as np
-
+import crcmod
 
 ######FUNCTIONS#########
 def crcsplit(decarray): #Finds lowest and highest crc from data and converts it to a hex string, also decimal array to hex string#
-    import crcmod
     xmodem_crc_func = crcmod.mkCrcFun(0x11021, rev=False, initCrc=0x0000, xorOut=0x0000)
     for idx, val in enumerate(decarray):
         decarray[idx]=format(decarray[idx],'x')
