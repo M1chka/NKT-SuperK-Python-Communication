@@ -75,18 +75,18 @@ def str_or_long(n): #sends string or long#
     else:
         return longtoarray(longval)
 
-######FUNCTIONS#########
+###############
 
     
 ###read settings###
 port='COM14'    #USB port##
 Dest=15         #Destination adress##
-Reg="6C"        #Registry adress (Hex)##
+Reg="30"        #Registry adress (Hex)##
 src=162         #Source number ##
 write=1         #Do you want to read or write?, 1=write, 0=read##
 longval=3         #Long Value#
-stringval="EXTREME"    #String Value#
-stringon=1      #Do you want to send a string or a long? , 0=long, 1=string##
+stringval="string"    #String Value#
+stringon=0      #Do you want to send a string or a long? , 0=long, 1=string##
 ####################
 
 
@@ -95,13 +95,13 @@ Data=[Dest,src,readorwrite(write),int(Reg, 16)]+str_or_long(stringon)
 #Finding highest and lowest 16bit crc and building data string##
 high,low,arrayout =crcsplit(Data)
 print("Find lowest and highest crc")
-#Building a ASCII telegram string from all data and##
+#Building a ASCII telegram string from all data##
 print("Building telegram")
 Telegram=binascii.unhexlify("".join(["0D","%s"%(arrayout),"%s"%(high),"%s"%(low),"0A"]))
 print(binascii.hexlify(Telegram))
 print("Telegram build!")
-#Setting up Connection to Laser#
-print("Connecting to SuperK Extreme")
+#Setting up connection to Laser#
+print("Connecting to a SuperK System")
 ser = serial.Serial(port, 115200,parity=serial.PARITY_NONE, rtscts=1,bytesize=8,stopbits=serial.STOPBITS_ONE)
 ser.timeout=50
 print("Connected")
@@ -110,12 +110,12 @@ print("Sending Telegram")
 ser.write(Telegram)
 #Receiving respons ASCII string#
 print("Waiting for a respons")
-mail=readline(ser)
+received_telegram=readline(ser)
 print("Telegram Received!")
 #closing connection to laser#
 print("Closing Conversation")
 ser.close()   
 print("Closed")
 #converting telegram string to readable Hex array#
-telegramar=mail_to_array(mail)
-print(telegramar)
+received_telegram_hex=mail_to_array(received_telegram)
+print(received_telegram_hex)
