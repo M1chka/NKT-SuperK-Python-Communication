@@ -54,7 +54,7 @@ def mail_to_array(mail): #converts ASCII string to readable HEX string array#
     del telegramar[0]
     return telegramar
 
-def str_or_long_to_array(n,value,string): #Converts a Long or a string to a decimal array/// (n=1 string else long, long value, string value) #
+def str_or_long_to_array(n,value,string): #Converts a Long or a string to a decimal array/// (n=1 string, n=0 long, long value, "string" value) #
     if n==1:
         tup=tuple([ ord(x) for x in struct.pack('%ss'%len(string),string)])
     else:
