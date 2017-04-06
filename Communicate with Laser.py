@@ -26,21 +26,6 @@ def crcsplit(decarray): #Finds lowest and highest crc from data and converts it 
     lo=format(crc[0],'x').upper()
     return hi,lo,arrayout
 
-def longtoarray(value): #Converts a Long value to a decimal array#
-    tup=tuple([ ord(x) for x in struct.pack('<L',value)])
-    X=np.asarray(tup)
-    X=np.ma.masked_equal(X,0)
-    X=X.compressed()
-    X=X.tolist()
-    return X
-
-def strtoarray(string): #Converts a string value to a decimal array#
-    tup=tuple([ ord(x) for x in struct.pack('%ss'%len(string),string)])
-    X=np.asarray(tup)
-    X=np.ma.masked_equal(X,0)
-    X=X.compressed()
-    X=X.tolist()
-    return X
 
 def readorwrite(write): #Makes telegram value for writing or reading#
     if write == 1:
@@ -69,11 +54,16 @@ def mail_to_array(mail): #converts ASCII string to readable HEX string array#
     del telegramar[0]
     return telegramar
 
-def str_or_long(n): #sends string or long#
+def str_or_long_to_array(n,value,string): #Converts a Long or a string to a decimal array/// (n=1 string else long, long value, string value) #
     if n==1:
-        return strtoarray(stringval)
+        tup=tuple([ ord(x) for x in struct.pack('%ss'%len(string),string)])
     else:
-        return longtoarray(longval)
+        tup=tuple([ ord(x) for x in struct.pack('<L',value)])
+    X=np.asarray(tup)
+    X=np.ma.masked_equal(X,0)
+    X=X.compressed()
+    X=X.tolist()
+    return X
 
 ###############
 
@@ -91,7 +81,7 @@ stringon=0      #Do you want to send a string or a long? , 0=long, 1=string##
 
 
 ##Put all data in an array###
-Data=[Dest,src,readorwrite(write),int(Reg, 16)]+str_or_long(stringon)
+Data=[Dest,src,readorwrite(write),int(Reg, 16)]+str_or_long_to_array(stringon,longval,stringval)
 #Finding highest and lowest 16bit crc and building data string##
 high,low,arrayout =crcsplit(Data)
 print("Find lowest and highest crc")
