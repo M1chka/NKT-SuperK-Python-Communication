@@ -19,8 +19,8 @@ def crcsplit(decarray): #Finds lowest and highest crc from data and converts it 
         if len(decarray[idx])==1:
             decarray[idx]='0%s'%decarray[idx]
         decarray[idx]=decarray[idx].upper()
+    outputcrc=xmodem_crc_func(binascii.unhexlify("".join(decarray)))
     arrayout="".join(decarray)
-    outputcrc=xmodem_crc_func(binascii.unhexlify(arrayout))
     crc=tuple([ ord(x) for x in struct.pack('<H',outputcrc)])
     hi=format(crc[1],'x').upper()
     lo=format(crc[0],'x').upper()
@@ -79,14 +79,14 @@ def str_or_long(n): #sends string or long#
 
     
 ###read settings###
-port='COM13'    #USB port##
+port='COM14'    #USB port##
 Dest=15         #Destination adress##
-Reg="30"        #Registry adress (Hex)##
+Reg="6C"        #Registry adress (Hex)##
 src=162         #Source number ##
 write=1         #Do you want to read or write?, 1=write, 0=read##
 longval=3         #Long Value#
-stringval="hey"    #String Value#
-stringon=0      #Do you want to send a string or a long? , 0=long, 1=string##
+stringval="EXTREME"    #String Value#
+stringon=1      #Do you want to send a string or a long? , 0=long, 1=string##
 ####################
 
 
